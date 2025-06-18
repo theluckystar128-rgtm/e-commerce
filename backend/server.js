@@ -9,7 +9,7 @@ const xss = require("xss-clean")
 const { body, validationResult } = require("express-validator")
 const sanitize = require("express-mongo-sanitize")
 const compress = require("compression")
-const { signup, login } = require("./handlers/auth")
+const { signup, login, oauth } = require("./handlers/auth")
 const connect = require("./connect")
 const { verifyToken } = require("./handlers/jwts")
 const checkRole = require("./handlers/checkRole")
@@ -76,6 +76,9 @@ app.post("/signup", [
     }
     await signup(req, res)
     await mail(req, res)
+})
+app.post("/oauth", async (req, res) => {
+    await oauth(req, res)
 })
 app.post("/login", [
     body("email").isEmail().withMessage("Email is not valid"),

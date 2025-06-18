@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useAlert } from "../AlertContext"
+import { GoogleLogin } from "@react-oauth/google"
 export default function Register() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -40,6 +41,33 @@ export default function Register() {
             })
         }
     }
+    const addGoogleOAuth = () => {
+        <GoogleLogin
+            onSuccess={(credentialResponse) => {
+                fetch(`${process.env.REACT_APP_BACKEND_URL}/oauth`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token: credentialResponse.credential
+                    })
+                }).then((res) => {
+                    return res.json()
+                }).then((data) => {
+                    showAlert(data.type, data.message)
+                    document.cookie = `token=${data.token}; httpOnly=true`
+                }).catch((err) => {
+                    showAlert("Error", "An error occurred while signing you up. Please try again later.")
+                    console.log(err)
+                })
+            }}
+            onError={() => {
+                showAlert("Error", "An error occurred while signing you up through Google. Please try again later.")
+            }}
+        />
+    }
     return (
         <div className="body">
             <h1>Sign Up</h1>
@@ -78,6 +106,14 @@ export default function Register() {
                 onClick={verify}
                 className="p-1 w-[150px] rounded-[7px] bg-black text-white">Sign Up</button>
             {alert.length !== 0 && <Alert heading={alert[0]} message={alert[1]} onClose={() => showAlert("", "")} />}
+            <br /><br />
+            <p>Already have an account? <a href="/login" className="text-blue-500">Login</a></p>
+            <h2>OR</h2>
+            <button
+                className="p-1 w-[150px] rounded-[7px] bg-black text-white"
+                onClick={addGoogleOAuth}>
+                Sign Up with Google
+            </button>
         </div>
     )
 }

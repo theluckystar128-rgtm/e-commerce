@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt")
 const users = require("../schemas/users")
+const { OAuth2Client } = require("google-auth-library")
+const client = new OAuth2Client(process.env.CLIENT_ID)
 const { generateToken } = require("./jwts")
 const signup = async (req, res) => {
     const salt = 10
@@ -37,4 +39,28 @@ const login = async (req, res) => {
         res.status(400).json(["Error", "Invalid credentials"])
     }
 }
-module.exports = { signup, login }
+const oauth = async (req, res) => {
+    const { token } = req.body
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    })
+    const payload = ticket.getPayload()
+    const user = await users.findOne({ email: payload.email })
+    if (user) {
+        const token = generateToken(user)
+    } else {
+        const newUser = new users({
+            name: payload.name,
+            email: payload.email,
+            role: payload.email,
+            password: payload.password
+        })
+        await newUser.save()
+        const token = generateToken(newUser)
+    }
+    res.status(200).cookie("token", token, {
+        httpOnly: true
+    }).json(["Success", "You have logged in successfully"])
+}
+module.exports = { signup, login, oauth }

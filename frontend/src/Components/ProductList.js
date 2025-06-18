@@ -54,7 +54,7 @@ export default function ProductList() {
             <div className="plist">
                 {products.map((product, index) => (
                     <div className="pcard" key={index}>
-                        <img src={product.image} className="pimg"  onClick={() => { navigate(`/${product._id}`) }}/>
+                        <img src={product.image} height={200} width={200} className="pimg"  onClick={() => { navigate(`/${product._id}`) }}/>
                         <h3>{product.name}</h3>
                         <p>Price: ₹{product.price}</p>
                         <button 
