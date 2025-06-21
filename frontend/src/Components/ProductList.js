@@ -47,13 +47,13 @@ export default function ProductList() {
         })
     }
     return (
-        <div className="mt-2.5">
+        <div className="mt-2.5 overflow-y-auto h-[100vh]">
             <Search />
             <h1 className="m-2.5">Products Listings</h1>
             <h2>Here is the product listing from our side, which you might find interesting:</h2>
-            <div className="plist">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {products.map((product, index) => (
-                    <div className="pcard" key={index}>
+                    <div className="border border-black p-4 rounded-lg shadow-md w-[300px]" key={index}>
                         <img src={product.image} height={200} width={200} className="pimg"  onClick={() => { navigate(`/${product._id}`) }}/>
                         <h3>{product.name}</h3>
                         <p>Price: ₹{product.price}</p>
@@ -64,6 +64,7 @@ export default function ProductList() {
                             }}>
                             Add to Cart
                         </button>
+                        <br /><br />
                         <button className="p-1 w-[150px] rounded-[7px] bg-black text-white">Buy Now</button>
                     </div>
                 ))}

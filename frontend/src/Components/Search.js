@@ -35,7 +35,7 @@ export default function Search() {
         }
     }
     return (
-        <div className="search">
+        <div className="sticky top-0 h-[10px] m-0 p-0 bg-none text-black">
             <input 
                 type="search" 
                 placeholder="Search for products..."  

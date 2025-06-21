@@ -14,9 +14,9 @@ export default function Alert({ heading, message, onClose }) {
         }
     }, [onClose])
     return (
-        <div className={`alert ${fade ? "fadeIn" : "fadeOut"}`}>
-            <h1 style={{color: "black"}}>{heading}</h1>
-            <p style={{color: "black"}}>{message}</p>
+        <div className={`fixed top-10 right-10 p-4 rounded-lg text-center-white shadow-lg z-50 ${heading.toLowerCase() === "error" ? "bg-red-500" : "bg-green-500" } ${fade ? "animate-fadeIn" : "animate-fadeOut"}`}>
+            <h1 className="text-3xl font-bold my-4 text-white">{heading}</h1>
+            <p className="text-white">{message}</p>
         </div>
     )
 }

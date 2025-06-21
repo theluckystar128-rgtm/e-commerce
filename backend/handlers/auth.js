@@ -47,8 +47,9 @@ const oauth = async (req, res) => {
     })
     const payload = ticket.getPayload()
     const user = await users.findOne({ email: payload.email })
+    let newToken
     if (user) {
-        const token = generateToken(user)
+        newToken = generateToken(user)
     } else {
         const newUser = new users({
             name: payload.name,
@@ -57,9 +58,9 @@ const oauth = async (req, res) => {
             password: payload.password
         })
         await newUser.save()
-        const token = generateToken(newUser)
+        newToken = generateToken(newUser)
     }
-    res.status(200).cookie("token", token, {
+    res.status(200).cookie("token", newToken, {
         httpOnly: true
     }).json(["Success", "You have logged in successfully"])
 }

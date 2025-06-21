@@ -9,9 +9,9 @@ import AlertWrapper from "./Components/AlertWrapper"
 import Detail from "./Components/ProductInfo"
 export default function App(){
     return (
-        <div>
+        <div className="overflow-y-hidden h-[100vh]">
             <AlertWrapper />
-            <div className="sticky top-0 z-20 h-[60px] p-5 w-full bg-black text-white flex justify-around">
+            <div className="sticky top-0 z-100 h-[60px] p-5 w-full bg-black text-white flex justify-around">
                 <Link to="/">
                     <button className="">Home</button>
                 </Link>
