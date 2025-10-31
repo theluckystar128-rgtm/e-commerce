@@ -12,7 +12,7 @@ It supports role-based access control, image uploads, and dynamic product manage
 - **Consumer**
   - Browse products
   - Add to cart and buy items
-
+  
 ## 🚀 Key Features
 
 - JWT-based User Authentication
